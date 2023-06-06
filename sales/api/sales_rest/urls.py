@@ -8,6 +8,7 @@ from .views import (
     sales_detail,
 )
 
+
 urlpatterns = [
     path("salespeople/", list_salespeople, name="list_salespeople"),
     path("salespeople/<int:pk/", salesperson_detail, name="salesperson_detail"),

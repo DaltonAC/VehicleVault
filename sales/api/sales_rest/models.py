@@ -16,13 +16,13 @@ class AutomobileVO(models.Model):
 class Salesperson(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
-    emplyoee_id = models.CharField(max_length=200)
+    employee_id = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.emplyoee_id
+        return self.employee_id
 
     def get_api_url(self):
-        return reverse("salesperson_detail", kwargs={"pk": self.emplyoee_id})
+        return reverse("salesperson_detail", kwargs={"pk": self.employee_id})
 
 
 class Customer(models.Model):
@@ -45,7 +45,7 @@ class Sale(models.Model):
         on_delete=models.CASCADE,
     )
 
-    Salesperson = models.ForeignKey(
+    salesperson = models.ForeignKey(
         Salesperson,
         related_name="salesperson_name",
         on_delete=models.CASCADE

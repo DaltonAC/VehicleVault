@@ -163,7 +163,8 @@ def list_sales(request):
             response.status_code = 400
             return response
 
-@require_http_methods("DELETE", "GET")
+
+@require_http_methods(["DELETE", "GET"])
 def sales_detail(request, pk):
     if request.method == "GET":
         try:
