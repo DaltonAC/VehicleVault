@@ -4,109 +4,167 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 import json
 from common.json import ModelEncoder
-from .models import Technician
+from .models import Technician, AutomobileVO, Appointment
 
 # Create your models here.
-class BinVODetailEncoder(ModelEncoder):
-    model = BinVO
-    properties = ["name", "vo_id"]
 
 
-class TechnicianListEncoder(ModelEncoder):
+class AutomobileVOEncoder(ModelEncoder):
+    model = AutomobileVO
+    properties = [
+        "vin",
+        "sold",
+        "id",
+    ]
+
+
+class TechnicianEncoder(ModelEncoder):
     model = Technician
     properties = [
         "first_name",
         "last_name",
-        "employee_id"
+        "employee_id",
+        "id",
     ]
+
+
+class AppointmentEncoder(ModelEncoder):
+    model = Appointment
+    properties = [
+        "date_time",
+        "reason",
+        "status",
+        "vin",
+        "customer",
+        "vip",
+        "id",
+        "technician"
+    ]
+
     encoders = {
-        "bin": BinVODetailEncoder(),
+        "technician": TechnicianEncoder(),
     }
 
 
-class BinListEncoder(ModelEncoder):
-    model = BinVO
-    properties = ["vo_id",
-                  "name"]
-
-
+# Technicians
 @require_http_methods(["GET", "POST"])
-def api_list_technicians(request):
-    if request.method == "POST":
-        content = json.loads(request.body)
-        try:
-            # Get the BinVO vo_id and put it in the content dict
-            bin_object = BinVO.objects.get(vo_id=content["bin"])
-            content['bin'] = bin_object
-
-        except BinVO.DoesNotExist:
-            return JsonResponse(
-                {"message": "Invalid XXXXXXXX"},
-                status=400,
-            )
-
-        technician = Technician.objects.create(**content)
+def list_technicians(request):
+    if request.method == "GET":
+        technicians = Technician.objects.all()
         return JsonResponse(
-            technician,
-            encoder=TechnicianListEncoder,
-            safe=False,
-        )
-
-    else:
-        if request.method == "GET":
-            shoe = Technician.objects.all()
-            return JsonResponse(
-                {"technician": technician},
-                encoder=TechnicianListEncoder,
+                {"technicians": technicians},
+                encoder=TechnicianEncoder,
+                safe=False
             )
+    else:
+        try:
+            content = json.loads(request.body)
+            technician = Technician.objects.create(**content)
+            return JsonResponse(
+                technician,
+                encoder=TechnicianEncoder,
+                safe=False,
+            )
+
+        except:
+            response = JsonResponse(
+                {"message": "Unable to create technician"}
+            )
+            response.status_code = 400
+            return response
+
+
+@require_http_methods(["DELETE", "GET"])
+def show_technician(request, id):
+    if request.method == "GET":  # get
+        try:
+            technician = Technician.objects.get(id=id)
+            return JsonResponse(
+                technician,
+                encoder=TechnicianEncoder,
+                safe=False
+            )
+        except Technician.DoesNotExist:
+            response = JsonResponse({"message": "Technician cannot be found"})
+            response.status_code = 404
+            return response
+
+    elif request.method == "DELETE":  # delete
+        try:
+            technician = Technician.objects.get(id=id)
+            technician.delete()
+            return JsonResponse(
+                {"message": "Technician deleted"}
+            )
+        except Technician.DoesNotExist:
+            return JsonResponse({"message": "Technican cannot be found"})
+
+
+# Appointments
+@require_http_methods(["GET", "POST"])
+def list_appointments(request):
+    if request.method == "GET":
+        appointments = Appointment.objects.all()
+        return JsonResponse(
+                {"appointments": appointments},
+                encoder=AppointmentEncoder,
+            )
+    else:
+        try:
+            content = json.loads(request.body)
+            appointment = Appointment.objects.updatecreate(**content)
+            return JsonResponse(
+                appointment,
+                encoder=AppointmentEncoder,
+                safe=False,
+            )
+        except:
+            response = JsonResponse(
+                {"message": "Unable to create appointment"}
+            )
+            response.status_code = 400
+            return response
 
 
 @require_http_methods(["DELETE", "GET", "PUT"])
-def api_show_technician(request, pk):
+def show_appointment(request, id):
     if request.method == "GET":
         try:
-            shoe = Shoe.objects.get(id=pk)
+            appointment = Appointment.objects.get(id=id)
             return JsonResponse(
-                shoe,
-                encoder=ShoeListEncoder,
+                appointment,
+                encoder=AppointmentEncoder,
                 safe=False
             )
-        except Shoe.DoesNotExist:
-            response = JsonResponse({"message": "Shoe does not exist"})
+        except Appointment.DoesNotExist:
+            response = JsonResponse({"message": "Appointment cannot be found"})
             response.status_code = 404
             return response
+
     elif request.method == "DELETE":
         try:
-            shoe = Shoe.objects.get(id=pk)
-            shoe.delete()
+            appointment = Appointment.objects.get(id=id)
+            appointment.delete()
             return JsonResponse(
-                {"message": "The shoe was deleted"}
+                {"message": "Appointment deleted"}
             )
-        except Shoe.DoesNotExist:
-            return JsonResponse({"message": "Shoe does not exist"})
-    else:  # PUT
-
+        except Technician.DoesNotExist:
+            return JsonResponse({"message": "Appointment cannot be found"})
+    else:
         try:
             content = json.loads(request.body)
-            shoe = Shoe.objects.get(id=pk)
-
-            # Get the BinVO vo_id and put it in the content dict
-            bin_object = BinVO.objects.get(vo_id=content["bin"])
-            content['bin'] = bin_object
-            props = ["model", "manufacturer", "color", "picture_url", "bin"]
+            appointment = Appointment.objects.get(id=id)
+            props = ["status"]
             for prop in props:
                 if prop in content:
-                    setattr(shoe, prop, content[prop])
-            shoe.save()
+                    setattr(appointment, prop, content[prop])
+            appointment.save()
             return JsonResponse(
-                shoe,
-                encoder=ShoeListEncoder,
+                appointment,
+                encoder=AppointmentEncoder,
                 safe=False,
             )
-        except Shoe.DoesNotExist:
-            response = JsonResponse({"message": "Shoe not exist"})
+        except Appointment.DoesNotExist:
+            response = JsonResponse({"message": "Appointment cannot be found"})
             response.status_code = 404
             return response
-
-
-# Create your views here.

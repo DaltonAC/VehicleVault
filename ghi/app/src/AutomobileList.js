@@ -2,6 +2,7 @@ import React, {useEffect, useState } from "react";
 
 export default function AutomobileList() {
     const [autos, setAutomobile] = useState([])
+
     const fetchData = async () => {
         const url = "http://localhost:8100/api/automobiles/";
         try {
