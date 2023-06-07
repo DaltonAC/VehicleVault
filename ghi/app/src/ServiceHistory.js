@@ -52,7 +52,7 @@ export default function AppointmentList() {
                 <thead>
                     <tr>
                         <th>VIN</th>
-                        <th>VIP Status</th>
+                        <th>VIP</th>
                         <th>Customer Name</th>
                         <th>Date</th>
                         <th>Time</th>
@@ -63,13 +63,14 @@ export default function AppointmentList() {
                 </thead>
                 <tbody>
                      {filteredAppointments.map(appointment => {
+                        const date = new Date(appointment.date_time)
                         return (
                         <tr key={appointment.id}>
                         <td>{appointment.vin}</td>
                         <td>{appointment.vip}</td>
                         <td>{appointment.customer}</td>
-                        <td>{appointment.date_time}</td>
-                        <td>{appointment.date_time}</td>
+                        <td>{ date.getMonth() }/{date.getDate()}/{date.getFullYear()}</td>
+                        <td>{ date.toLocaleTimeString('en-US',{timeZone:'UTC',hour12:true,hour:'numeric',minute:'numeric'})}</td>
                         <td>{appointment.technician.first_name} {appointment.technician.last_name}</td>
                         <td>{appointment.reason}</td>
                         <td>{appointment.status}</td>
