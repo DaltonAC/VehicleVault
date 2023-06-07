@@ -1,48 +1,46 @@
-import React, {useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
 
+export default function SalesPersonList() {
+  const [salespeople, setSalespeople] = useState([]);
 
-function SalespeopleList() {
-    const [salespeople, setSalespeople] = useState([]);
+  const getSalespeople = async () => {
+    const salespeopleUrl = "http://localhost:8090/api/salespeople";
+    const salespeopleResponse = await fetch(salespeopleUrl);
 
-    const fetchData = async () => {
-        const url = 'http://localhost:8090/api/salespeople/'
-        const response = await fetch(url);
-        if (response.ok) {
-            const data = await response.json();
-            setSalespeople(data.salespeople);
-        }
+    if (salespeopleResponse.ok) {
+      const data = await salespeopleResponse.json();
+      const salespeople = data.salespeople;
+      setSalespeople(salespeople);
     }
+  };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+  useEffect(() => {
+    getSalespeople();
+  }, []);
 
-    return (
-        <div>
-            <h1>Salespeople</h1>
-            <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th>First name</th>
-                        <th>Last name</th>
-                        <th>Employee ID</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {salespeople.map(salesperson => {
-                        return (
-                            <tr key={salesperson.employee_id}>
-                                <td>{salesperson.first_name}</td>
-                                <td>{salesperson.last_name}</td>
-                                <td>{salesperson.employee_id}</td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
-        </div>
-    );
+  return (
+    <div>
+      <h1>Salespeople</h1>
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Employee ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          {salespeople?.map((salesperson) => {
+            return (
+              <tr key={salesperson.id}>
+                <td>{salesperson.first_name}</td>
+                <td>{salesperson.last_name}</td>
+                <td>{salesperson.employee_id}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
 }
-
-export default SalespeopleList;

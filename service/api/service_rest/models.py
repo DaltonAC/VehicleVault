@@ -2,6 +2,8 @@ from django.db import models
 from django.urls import reverse
 
 # Create your models here.
+
+
 class AutomobileVO(models.Model):
     vo_id = models.PositiveIntegerField()
     vin = models.CharField(max_length=200)

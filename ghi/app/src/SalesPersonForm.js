@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
+import { useNavigate } from "react-router-dom";
 
 function CreateSalesperson() {
-
+    const navigate=useNavigate();
     const[formData, setFormData] = useState(
         {
             first_name: '',
@@ -9,16 +10,6 @@ function CreateSalesperson() {
             employee_id: '',
         }
     );
-
-    const handleFormChange = (event) => {
-        const value = event.target.value;
-        const inputName = event.target.name;
-
-        setFormData({
-            ...formData,
-            [inputName]: value
-        });
-    }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -32,16 +23,26 @@ function CreateSalesperson() {
         };
 
         const response = await fetch(url, fetchConfig);
-
         if (response.ok) {
             setFormData({
                 first_name: '',
                 last_name: '',
                 employee_id: '',
             });
+            navigate('/salesperson');
         }
     }
 
+    const handleFormChange = (event) => {
+            const value = event.target.value;
+            const inputName = event.target.name;
+
+            setFormData({
+                ...formData,
+                [inputName]: value
+            });
+        }
+        
     return(
         <div className="row">
         <div className="offset-3 col-6">

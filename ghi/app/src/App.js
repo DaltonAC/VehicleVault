@@ -34,16 +34,19 @@ function App() {
           <Route path="vehicle-models/create" element={<VehicleModelForm />} />
           <Route path="automobiles" element={<AutomobileList />} />
           <Route path="automobiles/create" element={<AutomobileForm />} />
-          {/* <Route path="customers" element={<CustomerList />} />
-          <Route path="customers/create" element={<CustomerForm />} />
-          <Route path="appointments" element={<AppointmentList />} />
-          <Route path="appointments/create" element={<AppointmentForm />} />
-          <Route path="sales" element={<SalesList />} />
-           <Route path="service-history" element={<ServiceHistory />} />
           <Route path="sales/create" element={<SalesForm />} />
           <Route path="salesperson" element={<SalesPersonList />} />
           <Route path="salesperson/create" element={<SalesPersonForm />} />
+          <Route path="sales" element={<SalesList />} />
+          <Route path="customers" element={<CustomerList />} />
+          <Route path="customers/create" element={<CustomerForm />} />
           <Route path="salesperson-history" element={<SalesPersonHistory />} />
+          {/*
+          <Route path="appointments" element={<AppointmentList />} />
+          <Route path="appointments/create" element={<AppointmentForm />} />
+          <Route path="salesperson-history" element={<SalesPersonHistory />} />
+          <Route path="service-history" element={<ServiceHistory />} />
+
           <Route path="technicians" element={<TechnicianList />} />
           <Route path="technicians/create" element={<TechnicianForm />} /> */}
         </Routes>

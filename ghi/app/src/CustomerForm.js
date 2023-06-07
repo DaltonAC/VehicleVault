@@ -1,59 +1,57 @@
-import React, {useEffect, useState} from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 function CreateCustomer() {
+    const navigate=useNavigate();
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
     const [address, setAddress] = useState('');
     const [phone_number, setPhoneNumber] = useState('');
 
+    const handleSubmit = async (event) => {
+            event.preventDefault();
+
+            const data = {}
+            data.first_name = first_name
+            data.last_name= last_name
+            data.address= address
+            data.phone_number=phone_number
+
+            const url = 'http://localhost:8090/api/customers/'
+            const fetchConfig = {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            };
+
+            const response = await fetch(url, fetchConfig);
+            if (response.ok) {
+                const newCustomer = await response.json()
+                setFirstName('');
+                setLastName('');
+                setAddress('');
+                setPhoneNumber('');
+                navigate('/customers');
+            }
+        }
     const handleFirstNameChange = (e) => {
         const value = e.target.value;
         setFirstName(value);
     }
-
     const handleLastNameChange = (e) => {
         const value = e.target.value;
         setLastName(value);
     }
-
     const handleAddressChange = (e) => {
         const value = e.target.value;
         setAddress(value);
     }
-
     const handlePhoneNumberChange = (e) => {
         const value = e.target.value;
         setPhoneNumber(value);
-    }
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const data = {}
-
-        data.first_name = first_name
-        data.last_name= last_name
-        data.address= address
-        data.phone_number=phone_number
-
-        const url = 'http://localhost:8090/api/customers/';
-        const fetchConfig = {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        };
-
-        const response = await fetch(url, fetchConfig);
-
-        if (response.ok) {
-            const newCustomer = await response.json()
-            setFirstName('');
-            setLastName('');
-            setAddress('');
-            setPhoneNumber('');
-
-        }
     }
 
     return (
@@ -85,7 +83,6 @@ function CreateCustomer() {
         </div>
         </div>
     )
-
 }
 
 export default CreateCustomer;
