@@ -40,14 +40,17 @@ function App() {
           <Route path="appointments" element={<AppointmentList />} />
           <Route path="appointments/create" element={<AppointmentForm />} />
           <Route path="service-history" element={<ServiceHistory />} />
-          {/* <Route path="customers" element={<CustomerList />} />
+          <Route path="customers" element={<CustomerList />} />
           <Route path="customers/create" element={<CustomerForm />} />
           <Route path="sales" element={<SalesList />} />
           <Route path="sales/create" element={<SalesForm />} />
           <Route path="salesperson" element={<SalesPersonList />} />
           <Route path="salesperson/create" element={<SalesPersonForm />} />
-          <Route path="salesperson-history" element={<SalesPersonHistory />} /> */}
-
+          <Route path="salesperson-history" element={<SalesPersonHistory />} />
+          <Route path="sales" element={<SalesList />} />
+          <Route path="customers" element={<CustomerList />} />
+          <Route path="customers/create" element={<CustomerForm />} />
+          <Route path="salesperson-history" element={<SalesPersonHistory />} />
         </Routes>
       </div>
     </BrowserRouter>
