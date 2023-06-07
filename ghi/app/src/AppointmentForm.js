@@ -5,21 +5,28 @@ export default function AutomobileForm() {
     const [vin, setVin] = useState('');
     const [customer, setCustomer] = useState('');
     const [date_time, setDateTime] = useState('');
-    const [vip, setVIP] = useState('');
     const [reason, setReason] = useState('');
-    const [date, setDate] = useState('');
-    const [time, setTime] = useState('');
     const [technician_id, setTechnicianID] = useState('');
     const [technicians, setTechnicians] = useState([]);
+    const [vins, setVins] = useState([]);
 
     const fetchData = async () => {
-        const url = 'http://localhost:8080/api/technicians/';
-        const response = await fetch(url);
-        if (response.ok) {
-            const data = await response.json();
+        const url1 = 'http://localhost:8080/api/technicians/';
+        const response1 = await fetch(url1);
+        if (response1.ok) {
+            const data = await response1.json();
             setTechnicians(data.technicians);
         } else {
-            console.log("issue")
+            console.log("No Getting Tech Data")
+        }
+        const url2 = 'http://localhost:8100/api/automobiles/';
+        const response2 = await fetch(url2);
+        if (response2.ok) {
+            const data = await response2.json();
+            console.log(data)
+            setVins(data.vins);
+        } else {
+            console.log("Not Getting Vin Data")
         }
   }
   useEffect(() => {
@@ -27,15 +34,18 @@ export default function AutomobileForm() {
   }, []);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
 
     const data = {}
     data.vin = vin;
     data.customer = customer;
-    data.vip = vip;
-    data.date_time = `${date}T${time}:00+00:00`;
+    data.date_time = date_time;
     data.technician_id = technician_id;
-    data.reason = reason
+    data.reason = reason;
+    if (data.vin in vins){
+      data.vip = true
+    } else {
+      data.vip = false
+    };
     // model info
 
 
@@ -53,24 +63,18 @@ export default function AutomobileForm() {
     if (response.ok) {
       setVin('');
       setCustomer('');
-      setVIP('');
       setDateTime('');
       setReason('');
       setTechnicianID('');
-      setDate('');
-      setTime('');
+      console.log(data)
     }
   };
 
-  const handleDateChange = (event) => {
+  const handleDateTimeChange = (event) => {
     const value = event.target.value;
-    setDate(value);
+    setDateTime(value);
   };
 
-  const handleTimeChange = (event) => {
-    const value = event.target.value;
-    setTime(value);
-  };
     const handleVinChange = (event) => {
         const value = event.target.value;
         setVin(value);
@@ -80,20 +84,11 @@ export default function AutomobileForm() {
         setCustomer(value);
     }
 
-    const handleVIPChange = (event) => {
-        const value = event.target.value;
-        setVIP(value);
-    }
-
     const handleReasonChange = (event) => {
         const value = event.target.value;
         setReason(value);
     }
 
-    const handleDateTimeChange = (event) => {
-        const value = event.target.value;
-        setDateTime(value);
-    }
     const handleTechnicianChange = (event) => {
         const value = event.target.value;
         setTechnicianID(value);
@@ -130,31 +125,16 @@ export default function AutomobileForm() {
 
             <div className="form-floating mb-3">
              <input
-                value={date}
-                placeholder="Date"
+                value={date_time}
+                placeholder="Date Time"
                 required
                 type="datetime-local"
-                name="date"
-                id="date"
+                name="date_time"
+                id="date_time"
                 className="form-control"
-                onChange={handleDateChange}/>
-            <label htmlFor="date">Select Date</label>
+                onChange={handleDateTimeChange}/>
+            <label htmlFor="date_time">Select Date & Time</label>
             </div>
-
-<div className="form-floating mb-3">
-  <input
-    value={time}
-    placeholder="Time"
-    required
-    type="time"
-    name="time"
-    id="time"
-    className="form-control"
-    onChange={handleTimeChange}
-  />
-  <label htmlFor="time">Select Time</label>
-</div>
-
             <div className="mb-3">
               <select
                 onChange={handleTechnicianChange}
@@ -173,18 +153,20 @@ export default function AutomobileForm() {
                 ))}
               </select>
             </div>
-{console.log(`${date}T${time}:00+00:00`)}
+
             <div className="form-floating mb-3">
               <input onChange={handleReasonChange}
               value ={reason}
               placeholder="Reason"
               required type="text"
-              name="reasom"
+              name="reason"
               id="reason"
               className="form-control" />
               <label htmlFor="reason">Reason</label>
             </div>
+
             <button className="btn btn-primary">Create</button>
+
           </form>
         </div>
       </div>

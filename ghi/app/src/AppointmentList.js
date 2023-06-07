@@ -18,7 +18,7 @@ export default function AppointmentList() {
         fetchData();
     }, []);
 
-    const handleButtonClick = async (e,buttonID, id) => {
+    const handleButtonClick = async (e, buttonID, id) => {
         // Perform the desired update based on the buttonId
         e.preventDefault();
 
@@ -83,8 +83,8 @@ export default function AppointmentList() {
                                 <td>{appointment.technician.first_name} {appointment.technician.last_name}</td>
                                 <td>{appointment.reason}</td>
                                 <td>
-                                <button onClick={(e) => handleButtonClick(e,'cancel', [appointment.id])}>Cancel</button>
-                                <button onClick={(e) => handleButtonClick(e,'finish', [appointment.id])}>Finish</button>
+                                <button className="btn btn-primary bg-warning" onClick={(e) => handleButtonClick(e,'cancel', [appointment.id])}>Cancel</button>
+                                <button className="btn btn-primary bg-success" onClick={(e) => handleButtonClick(e,'finish', [appointment.id])}>Finish</button>
                                 </td>
                             </tr>
                         )

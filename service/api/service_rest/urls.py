@@ -11,5 +11,5 @@ urlpatterns = [
     path("appointments/", list_appointments, name="list_appointments"),
     path("appointments/<int:id>/", show_appointment, name="show_appointment"),
     path("appointments/<int:id>/cancel/", show_appointment, name="show_appointment"),
-    path("appointments/<int:id>/fnish/", show_appointment, name="show_appointment"),
+    path("appointments/<int:id>/finish/", show_appointment, name="show_appointment"),
 ]

@@ -67,9 +67,7 @@ def list_technicians(request):
             )
 
         except:
-            response = JsonResponse(
-                {"message": "Unable to create technician"}
-            )
+            response = JsonResponse({"message": "Unable to create technician"})
             response.status_code = 400
             return response
 
@@ -93,11 +91,11 @@ def show_technician(request, id):
         try:
             technician = Technician.objects.get(id=id)
             technician.delete()
-            return JsonResponse(
-                {"message": "Technician deleted"}
-            )
+            return JsonResponse({"message": "Technician deleted"})
         except Technician.DoesNotExist:
-            return JsonResponse({"message": "Technican cannot be found"})
+            response = JsonResponse({"message": "Technican cannot be found"})
+            response.status_code = 400
+            return response
 
 
 # Appointments
@@ -119,9 +117,7 @@ def list_appointments(request):
                 safe=False,
             )
         except:
-            response = JsonResponse(
-                {"message": "Unable to create appointment"}
-            )
+            response = JsonResponse({"message": "Unable to create appointment"})
             response.status_code = 400
             return response
 
@@ -145,11 +141,11 @@ def show_appointment(request, id):
         try:
             appointment = Appointment.objects.get(id=id)
             appointment.delete()
-            return JsonResponse(
-                {"message": "Appointment deleted"}
-            )
+            return JsonResponse({"message": "Appointment deleted"})
         except Technician.DoesNotExist:
-            return JsonResponse({"message": "Appointment cannot be found"})
+            response = JsonResponse({"message": "Appointment cannot be found"})
+            response.status_code = 404
+            return response
     else:
         try:
             content = json.loads(request.body)
