@@ -50,7 +50,7 @@ export default function AppointmentList() {
         </form>
             <table className="table table-striped table-bordered shadow p-4 mt-4">
                 <thead>
-                    <tr>
+                    <tr className="table-warning">
                         <th>VIN</th>
                         <th>VIP</th>
                         <th>Customer Name</th>
@@ -67,7 +67,7 @@ export default function AppointmentList() {
                         return (
                         <tr key={appointment.id}>
                         <td>{appointment.vin}</td>
-                        <td>{appointment.vip}</td>
+                        <td>{appointment.vip ? 'Yes' : 'No'}</td>
                         <td>{appointment.customer}</td>
                         <td>{ date.getMonth() }/{date.getDate()}/{date.getFullYear()}</td>
                         <td>{ date.toLocaleTimeString('en-US',{timeZone:'UTC',hour12:true,hour:'numeric',minute:'numeric'})}</td>

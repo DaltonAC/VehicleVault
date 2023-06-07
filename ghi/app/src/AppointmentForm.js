@@ -8,26 +8,17 @@ export default function AutomobileForm() {
     const [reason, setReason] = useState('');
     const [technician_id, setTechnicianID] = useState('');
     const [technicians, setTechnicians] = useState([]);
-    const [vins, setVins] = useState([]);
 
     const fetchData = async () => {
-        const url1 = 'http://localhost:8080/api/technicians/';
-        const response1 = await fetch(url1);
+        const url = 'http://localhost:8080/api/technicians/';
+        const response1 = await fetch(url);
         if (response1.ok) {
             const data = await response1.json();
             setTechnicians(data.technicians);
         } else {
             console.log("No Getting Tech Data")
         }
-        const url2 = 'http://localhost:8100/api/automobiles/';
-        const response2 = await fetch(url2);
-        if (response2.ok) {
-            const data = await response2.json();
-            setVins(data.vins);
-        } else {
-            console.log("Not Getting Vin Data")
-        }
-  }
+    }
   useEffect(() => {
     fetchData();
   }, []);
@@ -92,7 +83,7 @@ export default function AutomobileForm() {
     <div className="row">
       <div className="offset-3 col-6">
         <div className="shadow p-4 mt-4">
-          <h1>Make A Appointment</h1>
+          <h1>Make Appointment</h1>
           <form onSubmit={handleSubmit} id="create-appointment-form">
             <div className="form-floating mb-3">
               <input onChange={handleVinChange}
@@ -158,7 +149,7 @@ export default function AutomobileForm() {
               <label htmlFor="reason">Reason</label>
             </div>
 
-            <button className="btn btn-primary">Create</button>
+            <button className="btn btn-primary btn-warning btn-lg">Create</button>
 
           </form>
         </div>

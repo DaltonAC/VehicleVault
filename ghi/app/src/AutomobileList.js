@@ -21,7 +21,7 @@ export default function AutomobileList() {
     return (
         <div>
             <h1>Automobiles</h1>
-            <table className="table table-striped table-bordered shadow p-4 mt-4">
+            <table className="table table-striped table-bordered shadow p-4 mt-4 table-Success">
                 <thead>
                     <tr>
                         <th>Vin</th>
