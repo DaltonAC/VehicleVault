@@ -2,7 +2,8 @@ import React, {useEffect, useState } from "react";
 
 export default function AppointmentList() {
     const [appointments, setAppointments] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [search, setSearch] = useState("");
+    const [filteredAppointments, setFilteredAppointments] = useState([]);
 
     const fetchData = async () => {
         const url = "http://localhost:8080/api/appointments/";
@@ -11,6 +12,7 @@ export default function AppointmentList() {
             if (response.ok) {
                 const data = await response.json();
                 setAppointments(data.appointments)
+                setFilteredAppointments(data.appointments);
             }
         } catch (e) {
             console.error(e);
@@ -21,23 +23,31 @@ export default function AppointmentList() {
     }, []);
 
     const handleSearch = (event) => {
-        setSearchQuery(event.target.value);
+        setSearch(event.target.value);
       };
 
-      const filteredAppointments = appointments.filter((appointment) =>
-        appointment.vin.includes(searchQuery)
-      );
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const searchResults = appointments.filter((appointment) =>
+          appointment.vin.includes(search)
+        );
+        setFilteredAppointments(searchResults);
+      };
+
     return (
         <div>
             <h1>Service History</h1>
+            <form onSubmit={handleSubmit}>
             <div className="mb-3">
-                <input
-                type="text"
-                className="form-control"
-                placeholder="Search by VIN:"
-                value={searchQuery}
-                onChange={handleSearch}/>
-      </div>
+            <input
+            type="text"
+            className="form-control"
+            placeholder="Search by VIN"
+            value={search}
+            onChange={handleSearch} />
+        </div>
+        <button type="submit" className="btn btn-primary">Search</button>
+        </form>
             <table className="table table-striped table-bordered shadow p-4 mt-4">
                 <thead>
                     <tr>

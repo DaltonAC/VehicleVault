@@ -5,12 +5,12 @@ from django.urls import reverse
 
 
 class AutomobileVO(models.Model):
-    # vo_id = models.PositiveIntegerField()
-    vin = models.CharField(max_length=200)
+    auto_vo = models.CharField(max_length=200)
+    vin = models.CharField(max_length=17)
     sold = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.vin}"
+        return self.vin
 
     def get_api_url(self):
         return reverse("api_automobile", kwargs={"vin": self.vin})
@@ -32,7 +32,7 @@ class Appointment(models.Model):
     date_time = models.DateTimeField()
     reason = models.CharField(max_length=200)
     status = models.CharField(max_length=200, default="Created")
-    vin = models.CharField(max_length=200)
+    vin = models.CharField(max_length=17)
     customer = models.CharField(max_length=200)
     vip = models.BooleanField(default=False)
 

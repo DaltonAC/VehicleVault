@@ -73,7 +73,7 @@ def list_technicians(request):
 
 
 @require_http_methods(["DELETE", "GET"])
-def show_technician(request, id):
+def show_technician(request, pk):
     if request.method == "GET":  # get
         try:
             technician = Technician.objects.get(id=id)
@@ -89,7 +89,7 @@ def show_technician(request, id):
 
     elif request.method == "DELETE":  # delete
         try:
-            technician = Technician.objects.get(id=id)
+            technician = Technician.objects.get(id=pk)
             technician.delete()
             return JsonResponse({"message": "Technician deleted"})
         except Technician.DoesNotExist:
@@ -110,12 +110,20 @@ def list_appointments(request):
     else:
         try:
             content = json.loads(request.body)
-            appointment = Appointment.objects.updatecreate(**content)
+            technician_id = content["technician_id"]
+            technician = Technician.objects.get(pk=technician_id)
+            content["technician"] = technician
+            sold_vin = content["vin"]
+            if AutomobileVO.objects.filter(vin=sold_vin, sold=True).exists():
+                content["vip"] = True
+
+            appointment = Appointment.objects.create(**content)
             return JsonResponse(
                 appointment,
                 encoder=AppointmentEncoder,
                 safe=False,
             )
+
         except:
             response = JsonResponse({"message": "Unable to create appointment"})
             response.status_code = 400

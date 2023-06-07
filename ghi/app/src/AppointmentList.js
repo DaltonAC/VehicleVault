@@ -52,8 +52,8 @@ export default function AppointmentList() {
                 }
             await fetch(finishURL,fetchConfig)
         }
-    }
-
+        fetchData();
+    };
 
     return (
         <div>
@@ -73,6 +73,7 @@ export default function AppointmentList() {
                 </thead>
                 <tbody>
                 {appointments.map(appointment => {
+                    if (appointment.status !== "Canceled" && appointment.status !== "Finished") {
                         return (
                             <tr key={appointment.id}>
                                 <td>{appointment.vin}</td>
@@ -87,7 +88,8 @@ export default function AppointmentList() {
                                 <button className="btn btn-primary bg-success" onClick={(e) => handleButtonClick(e,'finish', [appointment.id])}>Finish</button>
                                 </td>
                             </tr>
-                        )
+                        );
+                    }
                     })}
                 </tbody>
             </table>

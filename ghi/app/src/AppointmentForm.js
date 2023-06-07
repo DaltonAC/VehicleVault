@@ -23,7 +23,6 @@ export default function AutomobileForm() {
         const response2 = await fetch(url2);
         if (response2.ok) {
             const data = await response2.json();
-            console.log(data)
             setVins(data.vins);
         } else {
             console.log("Not Getting Vin Data")
@@ -41,11 +40,6 @@ export default function AutomobileForm() {
     data.date_time = date_time;
     data.technician_id = technician_id;
     data.reason = reason;
-    if (data.vin in vins){
-      data.vip = true
-    } else {
-      data.vip = false
-    };
     // model info
 
 
@@ -66,13 +60,12 @@ export default function AutomobileForm() {
       setDateTime('');
       setReason('');
       setTechnicianID('');
-      console.log(data)
     }
   };
 
-  const handleDateTimeChange = (event) => {
-    const value = event.target.value;
-    setDateTime(value);
+    const handleDateTimeChange = (event) => {
+        const value = event.target.value;
+        setDateTime(value);
   };
 
     const handleVinChange = (event) => {
