@@ -42,7 +42,7 @@ class Sale(models.Model):
         related_name="sale",
         on_delete=models.PROTECT
     )
-    price = models.DecimalField(max_digits=19, decimal_places=2)
+    price = models.PositiveBigIntegerField()
 
     def get_api_url(self):
         return reverse("sales_detail", kwargs={"pk": self.id})

@@ -18,6 +18,7 @@ export default function SalespersonHistory() {
         if (response.ok) {
             const data = await response.json();
             setSales(data.sales);
+
         }
     }
 
