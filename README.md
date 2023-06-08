@@ -42,7 +42,7 @@ Three models were created:
     -a model containing a vin field.
 
 -After the models were created they were registered in the admin.py file
--A poller was also created as get_sales to poll automobile Vehicle Identification Numbers
+-A poller was also created as poll() to poll automobile Vehicle Identification Numbers
 
 
 | Action | Method | URL |
