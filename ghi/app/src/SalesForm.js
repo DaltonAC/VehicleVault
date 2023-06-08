@@ -123,10 +123,10 @@ function SalesForm() {
         <div className="mb-3">
           <select onChange={handleCustomerChange} value={customer} required name="" id="customer" className="form-select">
             <option value="">Select a Customer...</option>
-            {customers.map(cust => {
+            {customers.map(customer => {
                 return (
-                    <option value={cust.id} key={cust.id}>
-                        {cust.first_name} {cust.last_name}
+                    <option value={customer.id} key={customer.id}>
+                        {customer.first_name} {customer.last_name}
                     </option>
                 );
               })}

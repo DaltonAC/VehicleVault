@@ -21,7 +21,8 @@ Team #7:
 - Ensure Docker containers are running and no exitied servers due to errors.
 - You can access the project in your browser at: [ http://localhost:3000/ ]
 
-## Design
+## Project Diagram
+![Project Diagram](CarCar-Diagram.png)
 
 This project consists of three microservices.
 - Inventory
@@ -218,178 +219,34 @@ JSON body data for Manufacturers:
 Explain your models and integration with the inventory
 microservice, here.
 
-### URLs and Ports
-These are both tables of URLs for each microservice. Hitting these endpoints through Insomina or your browser you can create, view, or delete the information as requested.
-
-**Apointments:**
-| Action | Request Method | URL
-| ------------ | ------ | ------------- |
-| List Appointments | GET | http://localhost:8080/api/appointments/ |
-| Create a Appointment| POST | http://localhost:8080/api/appointments/
-| Get a specific Appointment| GET | http://localhost:8080/api/appointments/:id/
-| Delete a specific Appointment | DELETE | http://localhost:8080/api/appointments/:id
-| Cancel an Appointment | PUT | http://localhost:8080/api/appointments/:id/cancel
-| Finish an Appointment | PUT | http://localhost:8080/api/appointments/:id/finish
-<br>
-
-**Technicians:**
-| Action | Request Method | URL
-| ------------ | ------ | ------------- |
-| List Technicians | GET | http://localhost:8080/api/technicians/ |
-| Create a Technician | POST | http://localhost:8080/api/technicians/
-| Get a specific Technician | GET | http://localhost:8080/api/technicians/id/
-| Delete a specific Technician | DELETE | http://localhost:8080/api/technicians/:id/
-<br>
-
-### GRUD
-
-#### **Appointments JSON Requests/Responses**
-
-**Create Appointment**: To create appointments the following fields shown below are requested. The date time format is not strict as it does not require the full extended format seen below. We ask that the VIN be added upon creation to determine whether the customer is a VIP or not. The status will by default be set to "Created". This POST request creates the appointment, if the technician_id that is entered is not one currently in the list of technicians, you will get an error code of 400, and that you are unable to create the appointment. The URL to create an appointment is [http://localhost:8080/api/appointments/]
-```
-{
-	"date_time":"2023-04-20T14:39",
-  "reason":"broken glass. everywhere.",
-  "vin":"2222",
-  "customer":"Warren Longmire",
-  "technician_id": 1
-}
-```
-
-**Specfic Appointment**: Adding the ID to end of the url with a GET request as such: [http://localhost:8080/api/appointments/:id/] will response with that specfici appointments data.
-```
-{
-  "date_time": "2023-04-20T14:39:00+00:00",
-	"reason": "broken glass. everywhere.",
-	"status": "Created",
-	"vin": "2222GFFEFF32",
-	"customer": "Warren Longmire",
-	"vip": false,
-	"id": 3,
-	"technician": {
-		"first_name": "Dalton",
-		"last_name": "Carl",
-		"employee_id": "555JGF2",
-		"id": 1
-			}
-```
-
-**List Appointments**: A GET request to the url [http://localhost:8080/api/appointments/] will response back with a dictionary with the key of "appointments". It shows the full appointment information including the extended information for the technician assigned to that appointment.
-```
-{
-    "appointments": [
-		{
-		"date_time": "2023-06-06T16:10:00+00:00",
-		"reason": "Broken Axel",
-		"status": "Created",
-		"vin": "23FFDS3232",
-		"customer": "Matt Batt",
-		"vip": false,
-		"id": 2,
-		"technician": {
-			"first_name": "Dalton,
-			"last_name": "Carl",
-			"employee_id": "555JGF2",
-			"id": 1
-			}
-		},
-```
-**Cancel / Finish Appointment**: With a PUT request to following URL with "cancel" or "finish" at the end will update the apppointments status field to the desired value.
-[http://localhost:8080/api/appointments/:id/cancel]
-
-```
-{
-	"message": "Appointment marked as canceled"
-}
-```
-[http://localhost:8080/api/appointments/:id/finish]
-```
-{
-	"message": "Appointment marked as finished"
-}
-```
-<br>
-
-#### **Technicians JSON Requests/Responses**
-
-**Create Technician**: Technicians have three fields when creating them. The employee_id can be a mix of numbers and letters. When a POST request is sent to [http://localhost:8080/api/technicians/] it will response back with the same information if the status code is 200. It will also display the unuiqe ID given to that technician.
-```
-{
-    "first_name":"Dalton",
-    "last_name": "Carl",
-    "employee_id": "555JGF2"
-}
-```
-
-**List Technicians**: A GET request to the url [http://localhost:8080/api/technicians/] will response back with a dictionary with the key of "technicians" displaying all of them currently created. Additional will show the unquie ID each has. This is useful when creating appointments through Insomina as it asks for the technicians ID.
-```
-{
-	"technicians": [
-		{
-		"first_name": "Sam",
-		"last_name": "Bam",
-		"employee_id": "123123G",
-		"id": 1
-		},
-		{
-		"first_name": "Dalton",
-		"last_name": "Carl",
-		"employee_id": "555JGF2",
-		"id": 2
-		}
-	]
-}
-```
-**Specfic Technician**: Adding the ID to end of the url with a GET request as such: [http://localhost:8080/api/technicians/:id/] will response with that specfici technicians data.
-```
-{
-	"first_name": "Dalton",
-	"last_name": "Carl",
-	"employee_id": "555JGF2",
-	"id": 2
-}
-```
-
-**Delete Technician:** If attempting to delete a technician that is currently assigned to a project, you will receive an error as the technican ForiegnKey field for appointments is protected. Thus not allowing you delete a techncian that is apart of an appointment. If they are not assigned to a appointment going to the following URL with the technicians ID with a DELETE request will delete the technician. [http://localhost:8080/api/technicians/:id/]
-```
-{
-	"message": "Technician was deleted"
-}
-```
-<br>
-
-### Models
-
-#### Appointment
-The appointment model allows for the creation of appointments accepting the following fields:
-*date_time, customer, VIP, status, technician, VIN*
-It takes in a ForeignKey from Techncian to get the name of avaiable technicians to attach to the appointment.
-
-
-#### Technician
-The technician model acts
-
-#### AutomobileVO
-This VO model
-
-
-### Front-End Overview
-From the services portion of the application you can create/view appointments. Service history displays a list of all appointments and their current status. You can create/view technicians too which can then be assigned to appointments when they are being created. The intented flow is to first create a technician, then appointment, then view the list of created appointments to mark them as compelted as needed.
-
-#### Appointment Intergration
-Appointments
-
-
-#### Technician Intergration
-
-
-
-
-
-
-
-----------
 ## Sales microservice
 
-Explain your models and integration with the inventory
-microservice, here.
+output:
+{
+	"price": 67347,
+	"automobile": {
+		"vin": "DJD345G42342DG",
+		"sold": true
+	},
+	"customer": {
+		"first_name": "Jim",
+		"last_name": "Carey",
+		"address": "312 Dumber Ln. Los Angeles, CA",
+		"phone_number": 9435529897,
+		"id": 10
+	},
+	"salesperson": {
+		"first_name": "Lorne",
+		"last_name": "Michaels",
+		"employee_id": "LM5523",
+		"id": 7
+	},
+	"id": 19
+}
+```
+* Sample DELETE output for specific Sales:
+```
+{
+	"deleted": true
+}
+```
