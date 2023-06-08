@@ -71,7 +71,7 @@ def list_technicians(request):
             response.status_code = 400
             return response
     else:
-        return JsonResponse({"message": "Request method invalid"}, status=400)
+        return JsonResponse({"message": "Request method invalid"}, status=405)
 
 
 @require_http_methods(["DELETE", "GET"])
@@ -99,7 +99,7 @@ def show_technician(request, id):
             response.status_code = 404
             return response
     else:
-        return JsonResponse({"message": "Request method invalid"}, status=400)
+        return JsonResponse({"message": "Request method invalid"}, status=405)
 
 
 @require_http_methods(["DELETE"])
@@ -116,7 +116,7 @@ def delete_technician(request, id):
             response.status_code = 404
             return response
     else:
-        return JsonResponse({"message": "Request method invalid"}, status=400)
+        return JsonResponse({"message": "Request method invalid"}, status=405)
 
 
 # Appointments
@@ -150,10 +150,10 @@ def list_appointments(request):
             response.status_code = 400
             return response
     else:
-        return JsonResponse({"message": "Request method invalid"}, status=400)
+        return JsonResponse({"message": "Request method invalid"}, status=405)
 
 
-@require_http_methods(["GET", "PUT"])
+@require_http_methods(["GET", "PUT","D"])
 def show_appointment(request, id):
     if request.method == "GET":
         try:
@@ -188,7 +188,7 @@ def show_appointment(request, id):
             return response
 
     else:
-        return JsonResponse({"message": "Request method invalid"}, status=400)
+        return JsonResponse({"message": "Request method invalid"}, status=405)
 
 
 @require_http_methods(["PUT"])
@@ -196,16 +196,16 @@ def cancel_appointment(request, id):
     if request.method == "PUT":
         try:
             appointment = Appointment.objects.get(id=id)
-            appointment.status = "canceled"
+            appointment.status = "Canceled"
             appointment.save()
-            return JsonResponse({"message": "Appointment marked as cancled"})
+            return JsonResponse({"message": "Appointment marked as cancleed"})
 
         except Appointment.DoesNotExist:
             response = JsonResponse({"message": "Appointment cannot be found"})
             response.status_code = 404
             return response
 
-    return JsonResponse({"message": "Request method invalid"}, status=400)
+    return JsonResponse({"message": "Request method invalid"}, status=405)
 
 
 @require_http_methods(["PUT"])
@@ -213,7 +213,7 @@ def finish_appointment(request, id):
     if request.method == "PUT":
         try:
             appointment = Appointment.objects.get(id=id)
-            appointment.status = "finished"
+            appointment.status = "Finished"
             appointment.save()
             return JsonResponse({"message": "Appointment marked as finished"})
 
@@ -222,7 +222,7 @@ def finish_appointment(request, id):
             response.status_code = 404
             return response
 
-    return JsonResponse({"message": "Request method invalid"}, status=400)
+    return JsonResponse({"message": "Request method invalid"}, status=405)
 
 
 @require_http_methods(["DELETE"])
