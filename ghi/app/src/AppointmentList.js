@@ -60,7 +60,7 @@ export default function AppointmentList() {
             <h1>Service Appointments</h1>
             <table className="table table-striped table-bordered shadow p-4 mt-4">
                 <thead>
-                    <tr>
+                    <tr className="table-warning">
                         <th>VIN</th>
                         <th>VIP</th>
                         <th>Customer Name</th>
@@ -79,15 +79,14 @@ export default function AppointmentList() {
                             <tr key={appointment.id}>
                                 <td>{appointment.vin}</td>
                                 <td>{appointment.vip ? 'Yes' : 'No'}</td>
-                                {console.log(appointment.vip)}
                                 <td>{appointment.customer}</td>
                                 <td>{ date.getMonth() }/{date.getDate()}/{date.getFullYear()}</td>
                                 <td>{ date.toLocaleTimeString('en-US',{timeZone:'UTC',hour12:true,hour:'numeric',minute:'numeric'})}</td>
                                 <td>{appointment.technician.first_name} {appointment.technician.last_name}</td>
                                 <td>{appointment.reason}</td>
                                 <td>
-                                <button className="btn btn-primary bg-warning" onClick={(e) => handleButtonClick(e,'cancel', [appointment.id])}>Cancel</button>
-                                <button className="btn btn-primary bg-success" onClick={(e) => handleButtonClick(e,'finish', [appointment.id])}>Finish</button>
+                                <button className="btn btn-primary bg-danger me-1" onClick={(e) => handleButtonClick(e,'cancel', [appointment.id])}>Cancel</button>
+                                <button className="btn btn-primary bg-success me-1" onClick={(e) => handleButtonClick(e,'finish', [appointment.id])}>Finish</button>
                                 </td>
                             </tr>
                         );

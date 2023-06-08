@@ -23,7 +23,7 @@ export default function TechnicianList() {
             <h1>Technician List</h1>
             <table className="table table-striped table-bordered shadow p-4 mt-4">
                 <thead>
-                    <tr>
+                    <tr className="table-warning">
                         <th>Employee ID</th>
                         <th>First Name</th>
                         <th>Last Name</th>

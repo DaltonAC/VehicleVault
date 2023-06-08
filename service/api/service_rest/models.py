@@ -5,7 +5,7 @@ from django.urls import reverse
 
 
 class AutomobileVO(models.Model):
-    vin = models.CharField(max_length=17)
+    vin = models.CharField(max_length=200)
     sold = models.BooleanField(default=False)
 
     def __str__(self):
@@ -31,7 +31,7 @@ class Appointment(models.Model):
     date_time = models.DateTimeField()
     reason = models.CharField(max_length=200)
     status = models.CharField(max_length=200, default="Created")
-    vin = models.CharField(max_length=17)
+    vin = models.CharField(max_length=200)
     customer = models.CharField(max_length=200)
     vip = models.BooleanField(default=False)
 
@@ -39,6 +39,7 @@ class Appointment(models.Model):
         Technician,
         related_name="appointments",
         on_delete=models.PROTECT,
+
     )
 
     def __str__(self):

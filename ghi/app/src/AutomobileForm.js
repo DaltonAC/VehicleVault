@@ -7,7 +7,6 @@ export default function AutomobileForm() {
     const [year, setYear] = useState('');
     const [model_id, setModelID] = useState('');
     const [models, setModels] = useState([]);
-    const [vip, setVIP] = useState('');
 
     const fetchData = async () => {
         const url = 'http://localhost:8100/api/models/';
@@ -31,7 +30,6 @@ export default function AutomobileForm() {
     data.color = color;
     data.year = year;
     data.model_id = model_id;
-    data.vip = vip
     // model info
 
 

@@ -15,7 +15,6 @@ class AutomobileVOEncoder(ModelEncoder):
         "vin",
         "sold",
         "id",
-        "auto_vo",
     ]
 
 
@@ -45,11 +44,6 @@ class AppointmentEncoder(ModelEncoder):
     encoders = {
         "technician": TechnicianEncoder(),
     }
-
-#Automobiles
-# def list_automobiles(request,id):
-
-
 
 
 # Technicians
@@ -102,7 +96,7 @@ def show_technician(request, id):
             return JsonResponse({"message": "Technician was deleted"})
         except Technician.DoesNotExist:
             response = JsonResponse({"message": "Technican cannot be found"})
-            response.status_code = 400
+            response.status_code = 404
             return response
     else:
         return JsonResponse({"message": "Request method invalid"}, status=400)
@@ -118,7 +112,9 @@ def delete_technician(request, id):
                 {"message": "Technician was deleted"}
             )
         except Technician.DoesNotExist:
-            return JsonResponse({"message": "Technician cannot be found"})
+            response = JsonResponse({"message": "Technican cannot be found"})
+            response.status_code = 404
+            return response
     else:
         return JsonResponse({"message": "Request method invalid"}, status=400)
 
@@ -135,6 +131,9 @@ def list_appointments(request):
     elif request.method == "POST":
         try:
             content = json.loads(request.body)
+            technician_id = content["technician_id"]
+            technician = Technician.objects.get(pk=technician_id)
+            content["technician"] = technician
             sold_vin = content["vin"]
             if AutomobileVO.objects.filter(vin=sold_vin).exists():
                 content["vip"] = True
@@ -145,13 +144,14 @@ def list_appointments(request):
                 encoder=AppointmentEncoder,
                 safe=False,
             )
-
         except:
-            response = JsonResponse({"message": "Unable to create appointment"})
+            response = JsonResponse(
+                {"message": "Unable to create appointment"})
             response.status_code = 400
             return response
     else:
         return JsonResponse({"message": "Request method invalid"}, status=400)
+
 
 @require_http_methods(["GET", "PUT"])
 def show_appointment(request, id):
@@ -196,7 +196,7 @@ def cancel_appointment(request, id):
     if request.method == "PUT":
         try:
             appointment = Appointment.objects.get(id=id)
-            appointment.status = "Canceled"  # Update the status field
+            appointment.status = "canceled"
             appointment.save()
             return JsonResponse({"message": "Appointment marked as cancled"})
 
@@ -213,7 +213,7 @@ def finish_appointment(request, id):
     if request.method == "PUT":
         try:
             appointment = Appointment.objects.get(id=id)
-            appointment.status = "Finished"  # Update the status field
+            appointment.status = "finished"
             appointment.save()
             return JsonResponse({"message": "Appointment marked as finished"})
 
@@ -234,5 +234,7 @@ def delete_appointment(request, id):
             return JsonResponse(
                 {"message": "Appointment was deleted"}
             )
-        except Technician.DoesNotExist:
-            return JsonResponse({"message": "Appointment cannot be found"})
+        except Appointment.DoesNotExist:
+            response = JsonResponse({"message": "Appointment cannot be found"})
+            response.status_code = 404
+            return response
