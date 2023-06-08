@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 export default function AutomobileForm() {
-
     const [vin, setVin] = useState('');
     const [customer, setCustomer] = useState('');
     const [date_time, setDateTime] = useState('');
@@ -15,8 +14,6 @@ export default function AutomobileForm() {
         if (response1.ok) {
             const data = await response1.json();
             setTechnicians(data.technicians);
-        } else {
-            console.log("No Getting Tech Data")
         }
     }
   useEffect(() => {
@@ -51,6 +48,7 @@ export default function AutomobileForm() {
       setDateTime('');
       setReason('');
       setTechnicianID('');
+
     }
   };
 
