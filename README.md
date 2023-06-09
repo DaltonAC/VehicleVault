@@ -485,7 +485,7 @@ AutomobileVO
 - vin
 - sold
 
-After the models were created, they were registered in the admin.py file. A poller was created as poll() in poll.py to poll automobile Vehicle Identification Numbers from the Inventory microservice.
+After the models were created, they were registered in the admin.py file. A poller was created as poll() in poller.py to poll automobile Vehicle Identification Numbers from the Inventory microservice.
 
 | Action                      | Method | URL                                      |
 | --------------------------- | ------ | ---------------------------------------- |
