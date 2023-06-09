@@ -9,7 +9,7 @@ Team #7:
 
 **Instructions to build and run CarCar**
 
-- Git, Docker, and Node.js 18.16+ are **required** applications. Insomnia is *optional* if wish to test out certain JSON requests..
+- Git, Docker, and Node.js 18.16+ are **required** applications. Insomnia is *optional* if wish to test out additional JSON requests.
 - Fork and Clone the main repository on your local computer using:
   ```
   git clone <repository.url>
@@ -23,6 +23,8 @@ Team #7:
 - Ensure Docker containers are running and no exited servers due to errors.
 - You can access the project in your browser at: [ http://localhost:3000/ ]
   <br>
+
+---
 
 ## Design
 
@@ -92,8 +94,8 @@ Return a list of manufacturers in a dictionary with a key of "manufacturers”.
 
 #### **Automobiles**
 
-| Action                       | Request Method | URL                                        |
-| ---------------------------- | -------------- | ------------------------------------------ | ------------ |
+| Action                       | Request | URL                    |
+| ------------------------ | -------------- | ------------------------- |
 | List automobiles             | GET            | http://localhost:8100/api/automobiles/     |
 | Create an automobile         | POST           | http://localhost:8100/api/                 | automobiles/ |
 | Get a specific automobile    | GET            | http://localhost:8100/api/automobiles/vin/ |
@@ -175,8 +177,8 @@ _Return a list of automobiles in a dictionary with a key of "autos"._
 
 #### **Vehicle Models**
 
-| Action                          | Request Method | URL                                  |
-| ------------------------------- | -------------- | ------------------------------------ |
+| Action                          | Request | URL                        |
+| ------------------------------- | -------------- | ------------------------------ |
 | List vehicle models             | GET            | http://localhost:8100/api/models/    |
 | Create a vehicle model          | POST           | http://localhost:8100/api/models/    |
 | Get a specific vehicle model    | GET            | http://localhost:8100/api/models/id/ |
@@ -240,6 +242,7 @@ Return a list of automobiles in a dictionary with a key of "models".
 
 <br>
 
+---
 ## Service Microservice
 
 The service microservice allows for the user to accomplish a number of tasks. It works in relation to the inventory microservice to poll data from there to allow customers to gain a special status if they previously bought their car from us.
@@ -248,10 +251,10 @@ The service microservice allows for the user to accomplish a number of tasks. It
 
 #### URLs and Ports
 
-These are both tables of URLs for each microservice. Hitting these endpoints through Insomnia or your browser you can create, view, or delete the information as requested.
+These are both tables of URLs for each microservice. Hitting these endpoints through Insomnia or your browser you can create, view, or delete the information as requested. The services microservice can be found at port **8080**.
 
 **Appointments:**
-| Action | Request Method | URL
+| Action | Request  | URL
 | ------------ | ------ | ------------- |
 | List Appointments | GET | http://localhost:8080/api/appointments/ |
 | Create Appointment| POST | http://localhost:8080/api/appointments/
@@ -262,7 +265,7 @@ These are both tables of URLs for each microservice. Hitting these endpoints thr
 <br>
 
 **Technicians:**
-| Action | Request Method | URL
+| Action | Request | URL
 | ------------ | ------ | ------------- |
 | List Technicians | GET | http://localhost:8080/api/technicians/ |
 | Create Technician | POST | http://localhost:8080/api/technicians/
@@ -431,19 +434,23 @@ This model has the following fields:
 - vin
 - sold
 
-This VO model
+This VO model is used through the Poller to get the data from the Automobile model inside of Inventory. This allows the Appointment model to get the VINs and Sold status of each automobile. This value object is vital to the overall applications ability to run.
 
 ### Front-End Overview
 
 From the services portion of the application, you can create/view appointments. Service history displays a list of all appointments and their status. You can create/view technicians too which can then be assigned to appointments when they are being created. The intended flow is to first create a technician, then an appointment, then view the list of created appointments to mark them as completed as needed.
 
-#### Appointment Integration
+#### **Appointment Integration**
 
-Appointments
+The front-end for this section of the application allows a user to create a appointment and view the current list of them. The appointment list only shows those with a status of "Created" with an optional button to cancel or finish, removing it from the list. The user can then navigate to the Service History page to see a list of all current and past appointments with a search bar to narrow down the list by VIN.
 
-#### Technician Integration
+#### **Technician Integration**
+
+This portion gives the user the ability to create new technicians to be assigned to appointments or view the current list of technicians. It will only display their name and employee ID. When a new technician is created it populates the appointment's technician dropdown field.
 
  <br>
+
+ ---
 
 ## Sales microservice
 
