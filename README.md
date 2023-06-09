@@ -30,7 +30,7 @@ Team #7:
 
 ### Project Diagram
 
-![Project Diagram](./CarCar-Diagram.png)
+![Project Diagram](CarCar-Diagram.PNG)
 
 This project consists of three microservices.
 
