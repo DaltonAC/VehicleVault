@@ -460,32 +460,32 @@ Explain your models and integration with the inventory
 microservice, here.
 Three models were created:
 
-1. Salesperson model
-   -Contains these three fields.
-   -first_name
-   -last_name
-   -employee_id
+Salesperson model
+- Contains these three fields.
+- first_name
+- last_name
+- employee_id
 
-2. Customer model
-   -contains these 4 fields.
-   -first_name
-   -last_name
-   -address
-   -phone_number
+Customer model
+- contains these 4 fields.
+- first_name
+- last_name
+ - address
+- phone_number
 
-3. Sale model
-   -contains these 4 fields.
-   -automobile
-   -salesperson
-   -customer
-   -price
-   -Automobile, Salesperson, and Customer were all created as foreign keys.
+Sale model
+- contains these 4 fields.
+- automobile
+- salesperson
+- customer
+- price
+- Automobile, Salesperson, and Customer were all created as ForeignKeys.
 
-4. AutomobileVO
-   -a model containing a vin field.
+AutomobileVO
+- vin
+- sold
 
--After the models were created, they were registered in the admin.py file
--A poller was also created as get_sales to poll automobile Vehicle Identification Numbers
+After the models were created, they were registered in the admin.py file. A poller was created as poll() in poll.py to poll automobile Vehicle Identification Numbers from the Inventory microservice.
 
 | Action                      | Method | URL                                      |
 | --------------------------- | ------ | ---------------------------------------- |
@@ -499,7 +499,7 @@ Three models were created:
 | Create a sale               | POST   | http://localhost:8090/api/sales/         |
 | Delete a sale               | DELETE | http://localhost:8090/api/sales/:id      |
 
--Each endpoint should return a 400 or 404 error if unsuccessful or attempting to access a model object that does not exist. Each endpoint should return a 400 or 404 error if unsuccessful or attempting to access a model object that does not exist.
+Each endpoint should return a 400 or 404 error if unsuccessful or attempting to access a model object that does not exist. Each endpoint should return a 400 or 404 error if unsuccessful or attempting to access a model object that does not exist.
 
 - Sample GET output for a list of salespeople:
 
