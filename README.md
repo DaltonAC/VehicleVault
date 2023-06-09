@@ -426,7 +426,7 @@ This model has the following fields:
 - last_name
 - employee_id
 
-This model allows for the creation and viewing of technicians for the project. It does not have any ForeignKeys but is used in the Apartment model. This model is used throughout this microservice to act as a starting point by which appointments are made.
+This model allows for the creation and viewing of technicians for the project. It does not have any ForeignKeys but is used in the Appointment model. This model is used throughout this microservice to act as a starting point by which appointments are made.
 
 #### **AutomobileVO**
 
