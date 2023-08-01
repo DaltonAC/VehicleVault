@@ -1,9 +1,4 @@
-# CarCar
-
-Team #7:
-
-- Dalton Carl - Services Microservice
-- Josh Tobin - Sales Microservice
+# VehcileVault
 
 ## Getting Started
 
