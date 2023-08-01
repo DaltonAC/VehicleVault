@@ -1,4 +1,4 @@
-# VehcileVault
+# VehicleVault
 
 ## Getting Started
 
